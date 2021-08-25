@@ -13,6 +13,7 @@ import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.authenticators.browser.AbstractUsernameFormAuthenticator;
 import org.keycloak.common.util.KeycloakUriBuilder;
+import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
@@ -36,7 +37,9 @@ public class EmailLinkAuthenticator extends AbstractUsernameFormAuthenticator im
         String email = formData.getFirst("email");
 
         // get config
-        Map<String, String> config = context.getAuthenticatorConfig().getConfig();
+        AuthenticatorConfigModel authenticatorConfig = context.getAuthenticatorConfig();
+        logger.info("Retrieved authenticatorConfig " + authenticatorConfig);
+        Map<String, String> config = authenticatorConfig.getConfig();
 
         // get create user config
         boolean createUsers = config.get("user.create").equals("true");
